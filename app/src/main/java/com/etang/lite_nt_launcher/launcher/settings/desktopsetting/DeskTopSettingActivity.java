@@ -140,6 +140,7 @@ public class DeskTopSettingActivity extends AppCompatActivity {
                 .findViewById(R.id.tv_listnumber_number);
         final EditText et_dialog_applist_number = (EditText) view
                 .findViewById(R.id.et_dialog_applist_number);
+
         seekBar_listnumber.setProgress(1);
 
 
