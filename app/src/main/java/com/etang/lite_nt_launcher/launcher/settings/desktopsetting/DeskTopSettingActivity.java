@@ -144,6 +144,8 @@ public class DeskTopSettingActivity extends AppCompatActivity {
         seekBar_listnumber.setProgress(1);
 
 
+
+
         seekBar_listnumber.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
