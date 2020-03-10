@@ -141,6 +141,8 @@ public class DeskTopSettingActivity extends AppCompatActivity {
         final EditText et_dialog_applist_number = (EditText) view
                 .findViewById(R.id.et_dialog_applist_number);
         seekBar_listnumber.setProgress(1);
+
+
         seekBar_listnumber.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
