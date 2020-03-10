@@ -47,9 +47,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.etang.lite_nt_launcher.R;
 import com.etang.lite_nt_launcher.launcher.settings.SettingActivity;
-import com.etang.lite_nt_launcher.launcher.settings.uninstallapk.UnInstallActivity;
 import com.etang.lite_nt_launcher.launcher.settings.wather.WatherActivity;
 import com.etang.lite_nt_launcher.tool.dialog.DeBugDialog;
+import com.etang.lite_nt_launcher.tool.dialog.UnInstallDialog;
 import com.etang.lite_nt_launcher.tool.savearrayutil.SaveArrayListUtil;
 import com.etang.lite_nt_launcher.tool.sql.MyDataBaseHelper;
 import com.etang.lite_nt_launcher.tool.toast.DiyToast;
@@ -172,8 +172,9 @@ public class MainActivity extends Activity implements OnClickListener {
                 // TODO Auto-generated method stub
                 try {
                     string_app_info = appInfos.get(position).getPackageName();
-                    Intent intent = new Intent(MainActivity.this, UnInstallActivity.class);
-                    startActivity(intent);
+                    UnInstallDialog.uninstall_app(MainActivity.this, MainActivity.this, string_app_info);
+//                    Intent intent = new Intent(MainActivity.this, UnInstallActivity.class);
+//                    startActivity(intent);
                 } catch (Exception e) {
                     DeBugDialog.debug_show_dialog(MainActivity.this, e.toString());
                 }

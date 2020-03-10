@@ -38,7 +38,7 @@ public class SettingActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 无Title
         setContentView(R.layout.activity_setting);
         initView();
-        tv_title_text.setText("桌面设置（v2.0）");
+        tv_title_text.setText("桌面设置（v2.1）");
         tv_back_text.setText("< 桌面");
         iv_title_back.setOnClickListener(new OnClickListener() {
             @Override
