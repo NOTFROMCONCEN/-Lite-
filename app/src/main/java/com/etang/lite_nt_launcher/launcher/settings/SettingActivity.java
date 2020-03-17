@@ -2,6 +2,7 @@ package com.etang.lite_nt_launcher.launcher.settings;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -9,21 +10,26 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.etang.lite_nt_launcher.R;
+import com.etang.lite_nt_launcher.launcher.MainActivity;
 import com.etang.lite_nt_launcher.launcher.settings.desktopsetting.DeskTopSettingActivity;
 import com.etang.lite_nt_launcher.launcher.settings.hindapp.HindAppSetting;
 import com.etang.lite_nt_launcher.launcher.settings.textsizesetting.TextSizeSetting;
 import com.etang.lite_nt_launcher.launcher.settings.wather.WeatherSettingActivity;
+import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 
 public class SettingActivity extends Activity {
 
     TextView tv_back_text;
     LinearLayout lv_weather_gone_setting, lv_textsize_setting, lv_applist_setting, lv_hindapp_setting;
     private TextView tv_title_text;
+    private CheckBox cb_hind_setting_ico;
     private ImageView iv_title_back;
 
 
@@ -38,7 +44,7 @@ public class SettingActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 无Title
         setContentView(R.layout.activity_setting);
         initView();
-        tv_title_text.setText("桌面设置（v2.1）");
+        tv_title_text.setText("桌面设置");
         tv_back_text.setText("< 桌面");
         iv_title_back.setOnClickListener(new OnClickListener() {
             @Override
@@ -77,10 +83,43 @@ public class SettingActivity extends Activity {
                 startActivity(new Intent(SettingActivity.this, HindAppSetting.class));
             }
         });
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("info", MODE_PRIVATE);
+        String ico_info = sharedPreferences.getString("setting_ico_hind", null);
+        try {
+            if (ico_info.equals("true")) {
+                cb_hind_setting_ico.setChecked(true);
+                MainActivity.check_view_hind(SettingActivity.this, sharedPreferences);
+            } else {
+                cb_hind_setting_ico.setChecked(false);
+                MainActivity.check_view_hind(SettingActivity.this, sharedPreferences);
+            }
+        } catch (Exception e) {
+            DiyToast.showToast(SettingActivity.this, "出现错误，设置参数已重置");
+            SharedPreferences.Editor editor = getSharedPreferences("info", MODE_PRIVATE).edit();
+            editor.putString("setting_ico_hind", "false");//日期文本大小
+            editor.apply();
+        }
+        cb_hind_setting_ico.setText("隐藏所有“底栏”内容\n你还可以通过长按时间的“小时”部分打开桌面设置，推荐将桌面设置为“仅显示应用列表”后再隐藏");
+        cb_hind_setting_ico.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SharedPreferences.Editor editor = getSharedPreferences("info", MODE_PRIVATE).edit();
+                    editor.putString("setting_ico_hind", "true");//日期文本大小
+                    editor.apply();
+                } else {
+                    SharedPreferences.Editor editor = getSharedPreferences("info", MODE_PRIVATE).edit();
+                    editor.putString("setting_ico_hind", "false");//日期文本大小
+                    editor.apply();
+                }
+            }
+        });
     }
 
     private void initView() {
         // TODO Auto-generated method stub
+        cb_hind_setting_ico = (CheckBox) findViewById(R.id.cb_hind_setting_ico);
         lv_hindapp_setting = (LinearLayout) findViewById(R.id.lv_hindapp_setting);
         tv_back_text = (TextView) findViewById(R.id.tv_back_text);
         tv_title_text = (TextView) findViewById(R.id.tv_title_text);

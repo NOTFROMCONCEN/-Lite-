@@ -85,12 +85,13 @@ public class MainActivity extends Activity implements OnClickListener {
     private IntentFilter batteryLevelFilter;
     private Handler handler;
     private Runnable runnable;
+    private MyDataBaseHelper dbHelper_name_sql;
+    private SQLiteDatabase db;
+    public static ImageView iv_setting_button;
     public static TextView tv_user_id, tv_time_hour, tv_time_min,
             tv_main_batterystate, tv_city, tv_wind, tv_temp_state,
             tv_last_updatetime, tv_date;
-    private MyDataBaseHelper dbHelper_name_sql;
-    private SQLiteDatabase db;
-    private ImageView iv_setting_button;
+    public static View view_buttom;
     public static LinearLayout line_wather;
     public static String string_app_info = "";
     public static GridView mListView;
@@ -133,6 +134,7 @@ public class MainActivity extends Activity implements OnClickListener {
             editor.putString("images_app_listifo", "true");
             editor.putString("appname_state", "nope");
             editor.putString("applist_number", "5");
+            editor.putString("setting_ico_hind", "false");//隐藏底栏
             /**
              * 设定文本大小预填充
              */
@@ -165,6 +167,14 @@ public class MainActivity extends Activity implements OnClickListener {
         }
         get_applist_number();//获取设定的应用列表列数
         check_text_size(MainActivity.this);//获取文本大小
+        check_view_hind(MainActivity.this, sharedPreferences);
+        tv_time_hour.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                return true;
+            }
+        });
         // 长按弹出APP信息
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -229,6 +239,26 @@ public class MainActivity extends Activity implements OnClickListener {
                 setNotification();
             }
         }, 2000);
+    }
+
+    public static void check_view_hind(Context context, SharedPreferences sharedPreferences) {
+        String ico_info = sharedPreferences.getString("setting_ico_hind", null);
+        try {
+            if (ico_info.equals("true")) {
+                MainActivity.iv_setting_button.setVisibility(View.GONE);
+                MainActivity.tv_main_batterystate.setVisibility(View.GONE);
+                MainActivity.view_buttom.setVisibility(View.INVISIBLE);
+            } else {
+                MainActivity.iv_setting_button.setVisibility(View.VISIBLE);
+                MainActivity.tv_main_batterystate.setVisibility(View.VISIBLE);
+                MainActivity.view_buttom.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            DiyToast.showToast(context, "出现错误，设置参数已重置");
+            SharedPreferences.Editor editor = context.getSharedPreferences("info", context.MODE_PRIVATE).edit();
+            editor.putString("setting_ico_hind", "false");//日期文本大小
+            editor.apply();
+        }
     }
 
     private void get_applist_number() {
@@ -362,6 +392,7 @@ public class MainActivity extends Activity implements OnClickListener {
      * 绑定控件
      */
     private void initView() {
+        view_buttom = (View) findViewById(R.id.view_buttom);
         mListView = (GridView) findViewById(R.id.mListView);
         iv_setting_button = (ImageView) findViewById(R.id.iv_setting_button);
         tv_time_hour = (TextView) findViewById(R.id.tv_time_hour);
