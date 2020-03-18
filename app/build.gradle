@@ -8,8 +8,8 @@ android {
         applicationId "com.etang.lite_nt_launcher"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 27
-        versionName "Sister Beta 2.7"
+        versionCode 28
+        versionName "Sister Beta 2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
