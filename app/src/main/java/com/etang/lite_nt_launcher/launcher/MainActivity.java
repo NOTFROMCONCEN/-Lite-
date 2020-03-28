@@ -138,23 +138,7 @@ public class MainActivity extends Activity implements OnClickListener {
             editor.putString("nametext_size", "16");//昵称文本大小
             editor.putString("dianchitext_size", "16");//电池文本大小
             editor.putString("datetext_size", "16");//日期文本大小
-            editor.apply();
-            //填充预设隐藏应用包名
-//            case "timetext_min_size":
-//                builder.setTitle("时间文本大小设置（分钟）");
-//                break;
-//            case "timetext_hour_size":
-//                builder.setTitle("时间文本大小设置（小时）");
-//                break;
-//            case "nametext_size":
-//                builder.setTitle("昵称文本大小设置");
-//                break;
-//            case "dianchitext_size":
-//                builder.setTitle("电池文本大小设置");
-//                break;
-//            case "datetext_size":
-//                builder.setTitle("日期文本大小设置");
-//                break;
+            editor.apply();//应用
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add("frist");
             SaveArrayListUtil.saveArrayList(MainActivity.this, arrayList, "start");//存储在本地
@@ -775,6 +759,11 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
+    /**
+     * 检查文本大小设置
+     *
+     * @param context
+     */
     public static void check_text_size(Context context) {
         try {
             SharedPreferences sharedPreferences = context.getSharedPreferences("info", MODE_PRIVATE);
