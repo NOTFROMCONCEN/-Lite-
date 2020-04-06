@@ -619,7 +619,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 .findViewById(R.id.radio3);
         final Button btn_con = (Button) view.findViewById(R.id.btn_dialog_rename_con);
         final Button btn_cls = (Button) view.findViewById(R.id.btn_dialog_rename_cls);
-        builder.setTitle("请输入你的要显示的内容");
         btn_cls.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
