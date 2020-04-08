@@ -48,6 +48,7 @@ import com.etang.lite_nt_launcher.launcher.settings.wather.WatherActivity;
 import com.etang.lite_nt_launcher.tool.dialog.DeBugDialog;
 import com.etang.lite_nt_launcher.tool.dialog.UnInstallDialog;
 import com.etang.lite_nt_launcher.tool.savearrayutil.SaveArrayListUtil;
+import com.etang.lite_nt_launcher.tool.server.AppInstallServer;
 import com.etang.lite_nt_launcher.tool.sql.MyDataBaseHelper;
 import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 import com.etang.lite_nt_launcher.util.AppInfo;
@@ -91,7 +92,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public static String string_app_info = "";
     public static GridView mListView;
     public static List<AppInfo> appInfos = new ArrayList<AppInfo>();
-
+    private AppInstallServer appinstallserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,12 @@ public class MainActivity extends Activity implements OnClickListener {
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add("frist");
             SaveArrayListUtil.saveArrayList(MainActivity.this, arrayList, "start");//存储在本地
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("提示");
+            builder.setMessage("说明书 QwQ ：\n    设置中可设置“离线模式”和“关闭底栏”，\n长按时间部分的“小时”可以打开桌面设置，\n可以通过长按“天气”部分更换天气地区，\n出现图标、文本错位问题，请在列表设置中，设置为“仅显示一行”\n更多说明持续补充中");
+            builder.setPositiveButton("确定", null);
+            builder.show();
+            initAppList(MainActivity.this);
         }
         get_applist_number();//获取设定的应用列表列数
         check_text_size(MainActivity.this);//获取文本大小
@@ -390,6 +396,9 @@ public class MainActivity extends Activity implements OnClickListener {
         dbHelper_name_sql = new MyDataBaseHelper(getApplicationContext(), "info.db",
                 null, 2);
         db = dbHelper_name_sql.getWritableDatabase();
+        //动态注册
+        appinstallserver = new AppInstallServer();
+        appinstallserver.register(this);
     }
 
     private void update_wathers(SharedPreferences sharedPreferences) {
@@ -551,6 +560,7 @@ public class MainActivity extends Activity implements OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(batteryLevelRcvr);
+        appinstallserver.unregister(this);
     }
 
     /**

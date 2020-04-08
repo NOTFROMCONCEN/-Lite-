@@ -1,6 +1,7 @@
 package com.etang.lite_nt_launcher.launcher.settings;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -22,13 +23,14 @@ import com.etang.lite_nt_launcher.launcher.settings.desktopsetting.DeskTopSettin
 import com.etang.lite_nt_launcher.launcher.settings.hindapp.HindAppSetting;
 import com.etang.lite_nt_launcher.launcher.settings.textsizesetting.TextSizeSetting;
 import com.etang.lite_nt_launcher.launcher.settings.wather.WeatherSettingActivity;
+import com.etang.lite_nt_launcher.tool.dialog.CheckUpdateDialog;
 import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 
 public class SettingActivity extends Activity {
 
     TextView tv_back_text;
     LinearLayout lv_weather_gone_setting, lv_textsize_setting, lv_applist_setting, lv_hindapp_setting;
-    private TextView tv_title_text;
+    private TextView tv_title_text, tv_check_update;
     private CheckBox cb_hind_setting_ico;
     private ImageView iv_title_back;
 
@@ -115,6 +117,15 @@ public class SettingActivity extends Activity {
                 }
             }
         });
+        tv_check_update.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProgressDialog progressDialog = new ProgressDialog(SettingActivity.this);
+                progressDialog.setMessage("正在加载");
+                progressDialog.show();
+                CheckUpdateDialog.check_update(SettingActivity.this, progressDialog);
+            }
+        });
     }
 
     private void initView() {
@@ -122,6 +133,7 @@ public class SettingActivity extends Activity {
         cb_hind_setting_ico = (CheckBox) findViewById(R.id.cb_hind_setting_ico);
         lv_hindapp_setting = (LinearLayout) findViewById(R.id.lv_hindapp_setting);
         tv_back_text = (TextView) findViewById(R.id.tv_back_text);
+        tv_check_update = (TextView) findViewById(R.id.tv_check_update);
         tv_title_text = (TextView) findViewById(R.id.tv_title_text);
         iv_title_back = (ImageView) findViewById(R.id.iv_title_back);
         lv_textsize_setting = (LinearLayout) findViewById(R.id.lv_textsize_setting);

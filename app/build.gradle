@@ -8,8 +8,8 @@ android {
         applicationId "com.etang.lite_nt_launcher"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 30
-        versionName "Beta 3.0"
+        versionCode 32
+        versionName "beta 3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -60,6 +60,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.13'
+    implementation 'org.jsoup:jsoup:1.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
