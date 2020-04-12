@@ -9,6 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import com.etang.lite_nt_launcher.R;
+import com.etang.lite_nt_launcher.launcher.diary.DiaryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,12 @@ public class GetApps {
             mInfo.setIntent(launchIntent);
             list.add(mInfo);
         }
+        AppInfo mInfo = new AppInfo();
+        mInfo.setIco(null);
+        mInfo.setName("日记");
+        mInfo.setPackageName(context.getPackageName() + ".diary.DiaryActivity");
+        list.add(mInfo);
+        Log.e("GetApps", "装载完成");
         return list;
     }
 

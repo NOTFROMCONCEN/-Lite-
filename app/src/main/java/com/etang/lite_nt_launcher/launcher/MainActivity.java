@@ -43,6 +43,7 @@ import android.widget.TextView;
 import androidx.core.app.NotificationCompat;
 
 import com.etang.lite_nt_launcher.R;
+import com.etang.lite_nt_launcher.launcher.diary.DiaryActivity;
 import com.etang.lite_nt_launcher.launcher.settings.SettingActivity;
 import com.etang.lite_nt_launcher.launcher.settings.wather.WatherActivity;
 import com.etang.lite_nt_launcher.tool.dialog.DeBugDialog;
@@ -106,7 +107,6 @@ public class MainActivity extends Activity implements OnClickListener {
         setContentView(R.layout.activity_main);
         //绑定各类
         initView();// 绑定控件
-        checkPermission();//存取权限
         new_time_Thread();// 启用更新时间进程
         rember_name();// 记住昵称
         initAppList(this);// 获取应用列表
@@ -143,12 +143,12 @@ public class MainActivity extends Activity implements OnClickListener {
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add("frist");
             SaveArrayListUtil.saveArrayList(MainActivity.this, arrayList, "start");//存储在本地
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("提示");
-            builder.setMessage("说明书 QwQ ：\n    设置中可设置“离线模式”和“关闭底栏”，\n长按时间部分的“小时”可以打开桌面设置，\n可以通过长按“天气”部分更换天气地区，\n出现图标、文本错位问题，请在列表设置中，设置为“仅显示一行”\n更多说明持续补充中");
-            builder.setPositiveButton("确定", null);
-            builder.show();
             initAppList(MainActivity.this);
+            /**
+             * 申请存储权限
+             */
+            DiyToast.showToast(MainActivity.this, "如果您不需要自定义图标功能，存储权限可以拒绝");
+            checkPermission();//存取权限
         }
         get_applist_number();//获取设定的应用列表列数
         check_text_size(MainActivity.this);//获取文本大小
@@ -186,11 +186,16 @@ public class MainActivity extends Activity implements OnClickListener {
                     // startActivity(intent);
                     Intent intent = getPackageManager().getLaunchIntentForPackage(
                             appInfos.get(position).getPackageName());
-                    if (intent != null) {
+                    if (intent != null) {//点击的APP无异常
                         intent.putExtra("type", "110");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
+                    } else if (appInfos.get(position).getName().equals("日记")) {//点击了“日记”
+                        intent = new Intent(MainActivity.this, DiaryActivity.class);
+                        startActivity(intent);
+                    } else {//出现异常
+                        DeBugDialog.debug_show_dialog(MainActivity.this, "启动APP时出现“Intent”为空的情况");
                     }
                 } catch (Exception e) {
                     DeBugDialog.debug_show_dialog(MainActivity.this, e.toString());
@@ -294,7 +299,6 @@ public class MainActivity extends Activity implements OnClickListener {
         SharedPreferences sharedPreferences;
         sharedPreferences = getSharedPreferences("info", MODE_PRIVATE);
         update_wathers(sharedPreferences);
-        initAppList(MainActivity.this);
         /**
          * 更新文本大小数据
          */
