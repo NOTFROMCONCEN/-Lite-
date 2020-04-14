@@ -45,8 +45,9 @@ import androidx.core.app.NotificationCompat;
 import com.etang.lite_nt_launcher.R;
 import com.etang.lite_nt_launcher.launcher.diary.DiaryActivity;
 import com.etang.lite_nt_launcher.launcher.settings.SettingActivity;
-import com.etang.lite_nt_launcher.launcher.settings.wather.WatherActivity;
+import com.etang.lite_nt_launcher.launcher.settings.weather.WeatherActivity;
 import com.etang.lite_nt_launcher.tool.dialog.DeBugDialog;
+import com.etang.lite_nt_launcher.tool.dialog.NameSettingDialog;
 import com.etang.lite_nt_launcher.tool.dialog.UnInstallDialog;
 import com.etang.lite_nt_launcher.tool.savearrayutil.SaveArrayListUtil;
 import com.etang.lite_nt_launcher.tool.server.AppInstallServer;
@@ -108,7 +109,7 @@ public class MainActivity extends Activity implements OnClickListener {
         //绑定各类
         initView();// 绑定控件
         new_time_Thread();// 启用更新时间进程
-        rember_name();// 记住昵称
+        rember_name(MainActivity.this, db);// 记住昵称
         initAppList(this);// 获取应用列表
         monitorBatteryState();// 监听电池信息
         mListView.setNumColumns(GridView.AUTO_FIT);
@@ -167,7 +168,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 // TODO Auto-generated method stub
                 try {
                     string_app_info = appInfos.get(position).getPackageName();
-                    UnInstallDialog.uninstall_app(MainActivity.this, MainActivity.this, string_app_info);
+                    UnInstallDialog.uninstall_app(MainActivity.this, MainActivity.this, string_app_info,appInfos.get(position).getName());
 //                    Intent intent = new Intent(MainActivity.this, UnInstallActivity.class);
 //                    startActivity(intent);
                 } catch (Exception e) {
@@ -190,9 +191,11 @@ public class MainActivity extends Activity implements OnClickListener {
                         intent.putExtra("type", "110");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-                        finish();
-                    } else if (appInfos.get(position).getName().equals("日记")) {//点击了“日记”
+                    } else if (appInfos.get(position).getPackageName().equals(getPackageName() + ".diary")) {//点击了“日记”
                         intent = new Intent(MainActivity.this, DiaryActivity.class);
+                        startActivity(intent);
+                    } else if (appInfos.get(position).getPackageName().equals(getPackageName() + ".weather")) {//点击了“天气”
+                        intent = new Intent(MainActivity.this, WeatherActivity.class);
                         startActivity(intent);
                     } else {//出现异常
                         DeBugDialog.debug_show_dialog(MainActivity.this, "启动APP时出现“Intent”为空的情况");
@@ -202,22 +205,11 @@ public class MainActivity extends Activity implements OnClickListener {
                 }
             }
         });
-        //长按弹出菜单选择城市
-        line_wather.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View v) {
-                // TODO Auto-generated method stub
-                startActivity(new Intent(getApplicationContext(),
-                        WatherActivity.class));
-                return true;
-            }
-        });
         //长按弹出昵称设置
         tv_user_id.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                show_name_dialog();
+                NameSettingDialog.show_name_dialog(MainActivity.this, db);
                 return true;
             }
         });
@@ -338,14 +330,14 @@ public class MainActivity extends Activity implements OnClickListener {
      * <p>
      * SQLite
      */
-    private void rember_name() {
+    public static void rember_name(Context context, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select * from name", null);
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();
-            tv_user_id.setText(cursor.getString(cursor
+            MainActivity.tv_user_id.setText(cursor.getString(cursor
                     .getColumnIndex("username")));
-            if (tv_user_id.getText().toString().isEmpty()) {
-                tv_user_id.setText("请设置昵称（长按此处）");
+            if (MainActivity.tv_user_id.getText().toString().isEmpty()) {
+                MainActivity.tv_user_id.setText("请设置昵称（长按此处）");
             }
         }
     }
@@ -610,83 +602,6 @@ public class MainActivity extends Activity implements OnClickListener {
         batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryLevelRcvr, batteryLevelFilter);
     }
-
-    public void show_name_dialog() {
-        final AlertDialog builder = new AlertDialog.Builder(
-                MainActivity.this).create();
-        View view = LayoutInflater.from(MainActivity.this).inflate(
-                R.layout.dialog_name_show, null, false);
-        builder.setView(view);
-        Window window = builder.getWindow();
-        builder.getWindow();
-        window.setGravity(Gravity.CENTER); // 底部位置
-        window.setContentView(view);
-        final EditText et_name_get = (EditText) view
-                .findViewById(R.id.et_title_name);
-        final RadioButton ra_0 = (RadioButton) view
-                .findViewById(R.id.radio0);
-        final RadioButton ra_1 = (RadioButton) view
-                .findViewById(R.id.radio1);
-        final RadioButton ra_2 = (RadioButton) view
-                .findViewById(R.id.radio2);
-        final RadioButton ra_3 = (RadioButton) view
-                .findViewById(R.id.radio3);
-        final Button btn_con = (Button) view.findViewById(R.id.btn_dialog_rename_con);
-        final Button btn_cls = (Button) view.findViewById(R.id.btn_dialog_rename_cls);
-        btn_cls.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.dismiss();
-            }
-        });
-        btn_con.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (et_name_get.getText().toString().isEmpty()
-                        && !ra_0.isChecked() && !ra_2.isChecked()
-                        && !ra_3.isChecked() && !ra_1.isChecked()) {
-                    db.execSQL("update name set username = ?",
-                            new String[]{""});
-                } else {
-                    if (ra_0.isChecked() || ra_1.isChecked()
-                            || ra_2.isChecked() || ra_3.isChecked()) {
-                        if (ra_0.isChecked()) {
-                            db.execSQL(
-                                    "update name set username = ?",
-                                    new String[]{ra_0.getText()
-                                            .toString() + "多看电纸书"});
-                        }
-                        if (ra_1.isChecked()) {
-                            db.execSQL(
-                                    "update name set username = ?",
-                                    new String[]{ra_1.getText()
-                                            .toString() + "多看电纸书"});
-                        }
-                        if (ra_2.isChecked()) {
-                            db.execSQL(
-                                    "update name set username = ?",
-                                    new String[]{ra_2.getText()
-                                            .toString() + "多看电纸书"});
-                        }
-                        if (ra_3.isChecked()) {
-                            db.execSQL(
-                                    "update name set username = ?",
-                                    new String[]{ra_3.getText()
-                                            .toString() + "多看电纸书"});
-                        }
-                    } else {
-                        db.execSQL("update name set username = ?",
-                                new String[]{et_name_get
-                                        .getText().toString()});
-                    }
-                }
-                builder.dismiss();
-                rember_name();
-            }
-        });
-        builder.show();
-    }
-
 
     /**
      * 桌面左下角设置 点击事件监听

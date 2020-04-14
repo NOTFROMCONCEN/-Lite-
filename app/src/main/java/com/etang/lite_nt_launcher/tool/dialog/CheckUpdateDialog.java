@@ -123,13 +123,14 @@ public class CheckUpdateDialog {
             builder.setMessage("当前版本：" + "\n" + version + "\n" + "现有版本：" + "\n" + version_web_4 + "\n" + "你已经是最新版本了");
             DiyToast.showToast(context, "你已经是最新版本了");
         }
-        builder.setPositiveButton("显示博客地址", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("博客地址", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DiyToast.showToast(context, "https://naiyouhuameitang.club/nt_launcher.html");
                 web_html(context);
             }
         });
+        builder.setNeutralButton("关闭", null);
         builder.show();
     }
 

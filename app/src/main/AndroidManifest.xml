@@ -50,7 +50,7 @@
             android:label="@string/title_activity_text_size_setting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".launcher.settings.wather.WeatherSettingActivity"
+            android:name=".launcher.settings.weather.WeatherSettingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".launcher.settings.desktopsetting.DeskTopSettingActivity"
@@ -59,7 +59,7 @@
             android:name=".launcher.settings.SettingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".launcher.settings.wather.WatherActivity"
+            android:name=".launcher.settings.weather.WeatherActivity"
             android:label=""
             android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar.MinWidth" />
     </application>

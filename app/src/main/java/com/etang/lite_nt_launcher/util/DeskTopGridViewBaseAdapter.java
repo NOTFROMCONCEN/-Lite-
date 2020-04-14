@@ -2,10 +2,7 @@ package com.etang.lite_nt_launcher.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +15,6 @@ import com.etang.lite_nt_launcher.R;
 import com.etang.lite_nt_launcher.tool.savearrayutil.SaveArrayImageUtil;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +48,7 @@ public class DeskTopGridViewBaseAdapter extends BaseAdapter {
         Holder holder = null;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(
-                    R.layout.gridview_item, null);
+                    R.layout.layout_gridview_item, null);
             holder = new Holder();
             holder.ico = (ImageView) convertView.findViewById(R.id.iv);
             holder.Name = (TextView) convertView.findViewById(R.id.tv);

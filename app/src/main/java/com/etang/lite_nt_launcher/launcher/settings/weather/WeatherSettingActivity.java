@@ -1,4 +1,4 @@
-package com.etang.lite_nt_launcher.launcher.settings.wather;
+package com.etang.lite_nt_launcher.launcher.settings.weather;
 
 import androidx.appcompat.app.AppCompatActivity;
 

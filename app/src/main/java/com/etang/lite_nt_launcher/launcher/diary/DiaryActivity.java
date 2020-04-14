@@ -25,9 +25,9 @@ import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 import java.util.Collections;
 
 public class DiaryActivity extends AppCompatActivity {
-    private TextView tv_title_text, tv_back_text;
-    private ImageView iv_title_back;
-    private Button btn_write_diary, btn_delete_diary;
+    private TextView tv_title_text, tv_back_text, tv_title_imagetext;
+    private ImageView iv_title_back, iv_title_imagebutton;
+    private Button btn_delete_diary;
     private SQLiteDatabase db;
     private MyDiaryBaseHelper myDiaryBaseHelper;
     public static ListView lv_diary;
@@ -45,6 +45,7 @@ public class DiaryActivity extends AppCompatActivity {
         initView();
         check_sql();//检查数据库是否已经创建
         tv_title_text.setText("日记");
+        tv_title_imagetext.setText("写日记");
         tv_back_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +58,13 @@ public class DiaryActivity extends AppCompatActivity {
                 finish();
             }
         });
-        btn_write_diary.setOnClickListener(new View.OnClickListener() {
+        tv_title_imagetext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WriteDiaryDialog.write_show_dialog(DiaryActivity.this);
+            }
+        });
+        iv_title_imagebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WriteDiaryDialog.write_show_dialog(DiaryActivity.this);
@@ -124,7 +131,8 @@ public class DiaryActivity extends AppCompatActivity {
     private void initView() {
         btn_delete_diary = (Button) findViewById(R.id.btn_delete_diary);
         lv_diary = (ListView) findViewById(R.id.lv_diary);
-        btn_write_diary = (Button) findViewById(R.id.btn_write_diary);
+        iv_title_imagebutton = (ImageView) findViewById(R.id.iv_title_imagebutton);
+        tv_title_imagetext = (TextView) findViewById(R.id.tv_title_imagetext);
         tv_back_text = (TextView) findViewById(R.id.tv_back_text);
         tv_title_text = (TextView) findViewById(R.id.tv_title_text);
         iv_title_back = (ImageView) findViewById(R.id.iv_title_back);

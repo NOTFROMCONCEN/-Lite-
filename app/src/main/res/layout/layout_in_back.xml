@@ -30,7 +30,6 @@
                 android:id="@+id/iv_title_back"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
                 android:background="@drawable/shaper_apks_button_window_show"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="&lt; BACK"
                 android:textColor="#000000"
+                android:textSize="15dp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_title_back"
                 app:layout_constraintEnd_toEndOf="@+id/iv_title_back"
                 app:layout_constraintStart_toStartOf="@+id/iv_title_back"
@@ -54,24 +54,41 @@
             android:gravity="center_vertical|center_horizontal"
             android:orientation="vertical">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical|left"
-            android:orientation="vertical">
-
             <TextView
                 android:id="@+id/tv_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:gravity="center_vertical|center_horizontal|right"
+                android:gravity="center_vertical|center_horizontal"
                 android:text="TextView"
                 android:textColor="#000000" />
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/iv_title_imagebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/shaper_apks_button_window_show"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_imagetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="功能按钮"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_title_imagebutton"
+                app:layout_constraintEnd_toEndOf="@+id/iv_title_imagebutton"
+                app:layout_constraintStart_toStartOf="@+id/iv_title_imagebutton"
+                app:layout_constraintTop_toTopOf="@+id/iv_title_imagebutton" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>

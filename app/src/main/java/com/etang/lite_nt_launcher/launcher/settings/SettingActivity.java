@@ -2,6 +2,7 @@ package com.etang.lite_nt_launcher.launcher.settings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -22,17 +22,18 @@ import com.etang.lite_nt_launcher.launcher.MainActivity;
 import com.etang.lite_nt_launcher.launcher.settings.desktopsetting.DeskTopSettingActivity;
 import com.etang.lite_nt_launcher.launcher.settings.hindapp.HindAppSetting;
 import com.etang.lite_nt_launcher.launcher.settings.textsizesetting.TextSizeSetting;
-import com.etang.lite_nt_launcher.launcher.settings.wather.WeatherSettingActivity;
+import com.etang.lite_nt_launcher.launcher.settings.weather.WeatherSettingActivity;
 import com.etang.lite_nt_launcher.tool.dialog.CheckUpdateDialog;
+import com.etang.lite_nt_launcher.tool.dialog.UnInstallDialog;
 import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 
 public class SettingActivity extends Activity {
 
     TextView tv_back_text;
-    LinearLayout lv_weather_gone_setting, lv_textsize_setting, lv_applist_setting, lv_hindapp_setting;
-    private TextView tv_title_text, tv_check_update;
+    LinearLayout lv_weather_gone_setting, lv_textsize_setting, lv_applist_setting, lv_hindapp_setting, lv_uninstall_ntlauncherlite;
+    private TextView tv_title_text, tv_title_imagetext;
     private CheckBox cb_hind_setting_ico;
-    private ImageView iv_title_back;
+    private ImageView iv_title_back, iv_title_imagebutton;
 
 
     @Override
@@ -46,7 +47,7 @@ public class SettingActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 无Title
         setContentView(R.layout.activity_setting);
         initView();
-        tv_title_text.setText("桌面设置");
+        tv_title_text.setText("检查更新");
         tv_back_text.setText("< 桌面");
         iv_title_back.setOnClickListener(new OnClickListener() {
             @Override
@@ -117,7 +118,8 @@ public class SettingActivity extends Activity {
                 }
             }
         });
-        tv_check_update.setOnClickListener(new OnClickListener() {
+        tv_title_imagetext.setText("检查更新");
+        tv_title_imagetext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ProgressDialog progressDialog = new ProgressDialog(SettingActivity.this);
@@ -126,16 +128,33 @@ public class SettingActivity extends Activity {
                 CheckUpdateDialog.check_update(SettingActivity.this, progressDialog);
             }
         });
+        iv_title_imagebutton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProgressDialog progressDialog = new ProgressDialog(SettingActivity.this);
+                progressDialog.setMessage("正在加载");
+                progressDialog.show();
+                CheckUpdateDialog.check_update(SettingActivity.this, progressDialog);
+            }
+        });
+        lv_uninstall_ntlauncherlite.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UnInstallDialog.uninstall_app(SettingActivity.this, SettingActivity.this, getPackageName(), "奶糖桌面Lite");
+            }
+        });
     }
 
     private void initView() {
         // TODO Auto-generated method stub
         cb_hind_setting_ico = (CheckBox) findViewById(R.id.cb_hind_setting_ico);
         lv_hindapp_setting = (LinearLayout) findViewById(R.id.lv_hindapp_setting);
+        lv_uninstall_ntlauncherlite = (LinearLayout) findViewById(R.id.lv_uninstall_ntlauncherlite);
         tv_back_text = (TextView) findViewById(R.id.tv_back_text);
-        tv_check_update = (TextView) findViewById(R.id.tv_check_update);
+        tv_title_imagetext = (TextView) findViewById(R.id.tv_title_imagetext);
         tv_title_text = (TextView) findViewById(R.id.tv_title_text);
         iv_title_back = (ImageView) findViewById(R.id.iv_title_back);
+        iv_title_imagebutton = (ImageView) findViewById(R.id.iv_title_imagebutton);
         lv_textsize_setting = (LinearLayout) findViewById(R.id.lv_textsize_setting);
         lv_applist_setting = (LinearLayout) findViewById(R.id.lv_applist_setting);
         lv_weather_gone_setting = (LinearLayout) findViewById(R.id.lv_weather_gone_setting);

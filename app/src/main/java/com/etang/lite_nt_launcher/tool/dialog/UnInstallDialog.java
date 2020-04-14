@@ -23,17 +23,22 @@ import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 import java.util.ArrayList;
 
 public class UnInstallDialog {
-    public static void uninstall_app(final Context context, final Activity activity, final String pakename) {
+    public static void uninstall_app(final Context context, final Activity activity, final String pakename, final String app_name) {
+        ArrayList<String> s = SaveArrayImageUtil.getSearchArrayList(context);
+        Log.e("ArrayList", s.toString());
         try {
             final AlertDialog builder = new AlertDialog.Builder(context).create();
-            builder.setTitle("包名：" + "\n" + pakename);
+//            builder.setTitle("包名：" + "\n" + pakename);
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_uninstall, null);
             builder.setView(view);
+            builder.setTitle(app_name);
             TextView tv_uninstall_appinfo = (TextView) view.findViewById(R.id.tv_uninstall_appinfo);
+            TextView tv_uninstall_packname = (TextView) view.findViewById(R.id.tv_uninstall_packname);
             Button btn_uninstall = (Button) view.findViewById(R.id.btn_uninstall_con);
             Button btn_cls = (Button) view.findViewById(R.id.btn_uninstall_cls);
             Button btn_hind = (Button) view.findViewById(R.id.btn_hind_con);
             Button btn_ico = (Button) view.findViewById(R.id.btn_load_ico);
+            tv_uninstall_packname.setText(pakename);
             tv_uninstall_appinfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,6 +132,7 @@ public class UnInstallDialog {
                         arrayList = SaveArrayImageUtil.getSearchArrayList(context);
                         arrayList.add(MainActivity.string_app_info + "-" + et_load_ico_uri.getText().toString());
                         SaveArrayImageUtil.saveArrayList(context, arrayList, "1");
+                        MainActivity.initAppList(context);
                     }
                 }
             });
@@ -145,6 +151,7 @@ public class UnInstallDialog {
                         }
                     }
                     SaveArrayImageUtil.saveArrayList(context, arrayList, "1");
+                    MainActivity.initAppList(context);
                 }
             });
             builder.setNegativeButton("取消", null);

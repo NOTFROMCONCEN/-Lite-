@@ -1,4 +1,4 @@
-package com.etang.lite_nt_launcher.launcher.settings.wather;
+package com.etang.lite_nt_launcher.launcher.settings.weather;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,7 +13,7 @@ import com.etang.lite_nt_launcher.tool.sql.MyDataBaseHelper;
 import com.etang.lite_nt_launcher.tool.toast.DiyToast;
 
 
-public class WatherActivity extends Activity {
+public class WeatherActivity extends Activity {
     private Button btn_wather_con;
     private EditText et_city_get;
     private MyDataBaseHelper dbHelper;

@@ -62,7 +62,7 @@
                 android:layout_marginRight="21dp"
                 android:orientation="vertical">
 
-                <include layout="@layout/title_wather" />
+                <include layout="@layout/layout_wather" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/list_all_apps" />
+            <include layout="@layout/layout_list_all_apps" />
 
         </RelativeLayout>
     </LinearLayout>

@@ -26,12 +26,10 @@ public class WriteDiaryDialog {
          */
         myDiaryBaseHelper = new MyDiaryBaseHelper(context, "diary.db", null, 2);
         db = myDiaryBaseHelper.getWritableDatabase();
-
         final AlertDialog builder = new AlertDialog.Builder(context).create();
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_write_diary, null, false);
         builder.setView(view);
         builder.setTitle("新建日记");
-
         final Button btn_dialog_diary_cls = (Button) view.findViewById(R.id.btn_dialog_diary_cls);
         final Button btn_dialog_diary_con = (Button) view.findViewById(R.id.btn_dialog_diary_con);
         final Button btn_dialog_diary_clean = (Button) view.findViewById(R.id.btn_dialog_diary_clean);
@@ -64,7 +62,6 @@ public class WriteDiaryDialog {
                 }
             }
         });
-
         builder.show();
     }
 }
