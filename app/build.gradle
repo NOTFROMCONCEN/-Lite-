@@ -8,8 +8,9 @@ android {
         applicationId "com.etang.lite_nt_launcher"
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 100000
-        versionName "Oasis 1.0"
+        versionCode 120000
+        versionName "Oasis 1.2" //稳定版最新版本号
+        versionName "beta Oasis 1.1.2"//测试版最新版本号
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
